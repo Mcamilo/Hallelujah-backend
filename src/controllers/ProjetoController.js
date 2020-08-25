@@ -5,6 +5,7 @@ module.exports = {
     async store(req, res, next){
         const {
         id_org,
+        nome_org,
         titulo,
         responsavel,
         d_inicio,
@@ -33,6 +34,7 @@ module.exports = {
         try {
             const projeto = await Projetos.create({
                 id_org,
+                nome_org,
                 titulo,
                 responsavel,
                 d_inicio,
@@ -65,8 +67,8 @@ module.exports = {
         }
     },
     async find(req, res){
-        const {id_org} = req.params;
-        Projetos.find({id_org}, (err, result)=>{
+        const {profile_id} = req.decoded;
+        Projetos.find({id_org:profile_id}, (err, result)=>{
             if(err || !result.length){
                 return res.status(400).json({message: "Bad Request"});                
             }else{

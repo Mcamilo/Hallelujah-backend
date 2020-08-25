@@ -19,6 +19,7 @@ const ProjetosSchema = new Schema({
         type:Schema.Types.ObjectId,
         required:true
     },
+    nome_org:String,
     titulo:String,
     responsavel:String,
     d_inicio:String,
