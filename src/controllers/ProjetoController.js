@@ -1,5 +1,6 @@
 const Projetos = require('../models/Projeto');
 require('dotenv').config()
+const crypto = require('crypto')
 
 module.exports = {
     async store(req, res, next){
@@ -27,10 +28,10 @@ module.exports = {
         locacao,
         equipamentos,
         materiais,
-        outros_custos,
-        imagem_url,
+        outros_custos
         } = req.body
-
+        
+        const fileName = `${crypto.randomBytes(16).toString("hex")}-${req.file.originalname}`
         try {
             const projeto = await Projetos.create({
                 id_org,
@@ -57,9 +58,10 @@ module.exports = {
                 equipamentos,
                 materiais,
                 outros_custos,
-                imagem_url,
+                imagem_url: fileName,
             })
             req.projeto_id = projeto._id
+            req.fileName = fileName
             return next()
 
         } catch (error) {
