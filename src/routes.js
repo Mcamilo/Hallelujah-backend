@@ -9,6 +9,12 @@ const AuthMiddleware = require('./middlewares/Authmiddleware');
 const PerfilController = require('./controllers/PerfilController');
 const ProjetoController = require('./controllers/ProjetoController');
 
+const fs = require('fs');
+
+let rawdata = fs.readFileSync("../"+process.env.GCP_KEY_FILE);
+// let student = JSON.parse(rawdata);
+console.log(rawdata);
+
 const gc = new Storage({
     keyFilename: path.join(__dirname, "../"+process.env.GCP_KEY_FILE),
     projectId: 'tough-healer-245802',
@@ -60,13 +66,13 @@ routes.post('/projetos', multer.single('file'), ProjetoController.store, (req,re
     const blobStream = blob.createWriteStream();
 
     blobStream.on('error', (err) => {
-        next(err);
+        console.log("ERRO!"+err)
     });
 
-    // blobStream.on('finish', () => {
-        // const publicUrl = `https://storage.googleapis.com/${gcBucket.name}/${blob.name}`;
-        // res.status(200).send(publicUrl);
-    // });
+    blobStream.on('finish', () => {
+        const publicUrl = `https://storage.googleapis.com/${gcBucket.name}/${blob.name}`;
+       console.log(`===============>> ${publicUrl}`);
+    });
     blobStream.end(req.file.buffer);
     res.status(200).json({success:true, message:"ok"})
 })
