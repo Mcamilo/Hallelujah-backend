@@ -9,12 +9,6 @@ const AuthMiddleware = require('./middlewares/Authmiddleware');
 const PerfilController = require('./controllers/PerfilController');
 const ProjetoController = require('./controllers/ProjetoController');
 
-const fs = require('fs');
-
-let rawdata = fs.readFileSync("../"+process.env.GCP_KEY_FILE);
-// let student = JSON.parse(rawdata);
-console.log(rawdata);
-
 const gc = new Storage({
     keyFilename: path.join(__dirname, "../"+process.env.GCP_KEY_FILE),
     projectId: 'tough-healer-245802',
@@ -58,6 +52,7 @@ routes.post('/registrar', PerfilController.store)
 
 // Projetos
 routes.post('/projetos', multer.single('file'), ProjetoController.store, (req,res,next)=>{
+    console.log("CADASTRANDO PROJETO")
     if (!req.file) {
         res.status(400).send('No file uploaded.');
         return;
