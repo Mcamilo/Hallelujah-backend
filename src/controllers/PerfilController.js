@@ -32,14 +32,21 @@ module.exports = {
     },
     async find(req, res){
         const {profile_id} = req.decoded;
-        console.log(profile_id)
         Perfil.find({_id:profile_id}, (err, result)=>{
             if(err || !result.length){
                 return res.status(400).json({message: "Bad Request"});
             }else{
                 // To do refactorar para findById
                 const resultado = result[0]
-                return res.json({id:resultado._id, papel:resultado.papel, email: resultado.email, nome: resultado.nome, endereco: resultado.endereco,})
+                return res.json({
+                                id:resultado._id,
+                                nome: resultado.nome, 
+                                endereco: resultado.endereco,
+                                cidade: resultado.cidade,
+                                pais: resultado.pais,
+                                cep: resultado.cep,
+                                descricao: resultado.descricao
+                            })
             }
         })
     },
@@ -64,10 +71,9 @@ module.exports = {
     },
     async updateInfo(req, res){
         const {profile_id} = req.decoded;
-        const {nome, email, endereco, cidade, pais, cep, descricao} = req.body
+        const {nome, endereco, cidade, pais, cep, descricao} = req.body
         const perfil = await Perfil.findById(profile_id)
         perfil.nome = nome
-        perfil.email = email
         perfil.endereco = endereco
         perfil.cidade = cidade
         perfil.pais = pais

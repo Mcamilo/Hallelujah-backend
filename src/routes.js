@@ -40,7 +40,7 @@ const gcBucket = gc.bucket('instituto-hallelujah-bucket')
 routes.get('/', AuthMiddleware.checkToken, (req,res)=>{
     return res.status(200).json({success:true,message:`Server in On`})
 });
-
+routes.get('/profileInfo', AuthMiddleware.checkToken, PerfilController.find)
 // Notificações
 // Autorização 
 routes.post('/', PerfilController.createToken)
@@ -76,7 +76,7 @@ routes.post('/updateInfo/', AuthMiddleware.checkToken, PerfilController.updateIn
 
 routes.get('/projetosUser/', AuthMiddleware.checkToken, ProjetoController.find)
 routes.get('/projetos', ProjetoController.findAll)
-// routes.get('/projetos/:id_org', ProjetoController.find)
+
 routes.post('/votos', ProjetoController.vote)
 
 // To-do 
