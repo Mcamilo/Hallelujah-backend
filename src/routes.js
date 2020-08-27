@@ -51,7 +51,7 @@ routes.post('/registrar', PerfilController.store)
 
 
 // Projetos
-routes.post('/projetos', multer.single('file'), ProjetoController.store, (req,res,next)=>{
+routes.post('/projetos', AuthMiddleware.checkToken, multer.single('file'), ProjetoController.store, (req,res,next)=>{
     console.log("CADASTRANDO PROJETO")
     if (!req.file) {
         res.status(400).send('No file uploaded.');
@@ -71,6 +71,8 @@ routes.post('/projetos', multer.single('file'), ProjetoController.store, (req,re
     blobStream.end(req.file.buffer);
     res.status(200).json({success:true, message:"ok"})
 })
+
+routes.post('/updateInfo/', AuthMiddleware.checkToken, PerfilController.updateInfo)
 
 routes.get('/projetosUser/', AuthMiddleware.checkToken, ProjetoController.find)
 routes.get('/projetos', ProjetoController.findAll)

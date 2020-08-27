@@ -1,12 +1,18 @@
 const Projetos = require('../models/Projeto');
+const Perfil = require('../models/Perfil');
 require('dotenv').config()
 const crypto = require('crypto')
 
+async function getPerfilById(profile_id){
+    return await Perfil.findById(profile_id).exec()
+}
+
 module.exports = {
     async store(req, res, next){
+        const {profile_id} = req.decoded;
+        const {nome} = await getPerfilById(profile_id);
+        
         const {
-        id_org,
-        nome_org,
         titulo,
         responsavel,
         d_inicio,
@@ -34,8 +40,8 @@ module.exports = {
         const fileName = `${crypto.randomBytes(16).toString("hex")}-${req.file.originalname}`
         try {
             const projeto = await Projetos.create({
-                id_org,
-                nome_org,
+                id_org: profile_id,
+                nome_org:nome,
                 titulo,
                 responsavel,
                 d_inicio,

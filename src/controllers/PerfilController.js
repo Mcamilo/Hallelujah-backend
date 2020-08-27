@@ -4,8 +4,7 @@ const jwt = require('jsonwebtoken')
 
 module.exports = {
     async store(req, res){
-        const { email, senha, papel, nome, endereco, cidade, pais, cep, descricao } = req.body
-        const status = 0
+        const { email, senha, nome, endereco, cidade, pais, cep, descricao } = req.body
         const usuarioExists = await Perfil.findOne({
                 $and:[{email}]
             })
@@ -17,7 +16,7 @@ module.exports = {
                 await Perfil.create({
                     email,
                     senha,
-                    papel,
+                    papel: 'user',
                     nome,
                     endereco,
                     cidade,
@@ -62,5 +61,19 @@ module.exports = {
     async findAll(req, res){
     // todo
       return res.send({msg:"to-do"})
-    }
+    },
+    async updateInfo(req, res){
+        const {profile_id} = req.decoded;
+        const {nome, email, endereco, cidade, pais, cep, descricao} = req.body
+        const perfil = await Perfil.findById(profile_id)
+        perfil.nome = nome
+        perfil.email = email
+        perfil.endereco = endereco
+        perfil.cidade = cidade
+        perfil.pais = pais
+        perfil.cep = cep
+        perfil.descricao = descricao
+        await perfil.save()
+        return res.status(200).json({message:"ok"})
+    },
 };
