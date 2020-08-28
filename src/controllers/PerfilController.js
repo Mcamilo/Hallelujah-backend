@@ -72,14 +72,14 @@ module.exports = {
     async updateInfo(req, res){
         const {profile_id} = req.decoded;
         const {nome, endereco, cidade, pais, cep, descricao} = req.body
-        const perfil = await Perfil.findById(profile_id)
-        perfil.nome = nome
-        perfil.endereco = endereco
-        perfil.cidade = cidade
-        perfil.pais = pais
-        perfil.cep = cep
-        perfil.descricao = descricao
-        await perfil.save()
-        return res.status(200).json({message:"ok"})
+        const perfil = await Perfil.findByIdAndUpdate(profile_id,{
+        nome, endereco, cidade, pais, cep, descricao
+        }, function(err, result) {
+          if (err) {
+            return res.status(400).json({err});
+          } else {
+           return res.status(200).json({message:"ok"});
+          }
+        })
     },
 };
