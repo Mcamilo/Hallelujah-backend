@@ -54,7 +54,7 @@ module.exports = {
         const {email, senha} = req.body
         Perfil.authenticate(email, senha, function (error, perfil) {
         if (error || !perfil) {
-          return res.status(400).json({message: 'Email ou senha errada'})
+          return res.status(400).json({message: 'Email ou senha errada', error})
         } else {
           const profile_id = perfil._id
           const secret = process.env.JWT_SECRET
