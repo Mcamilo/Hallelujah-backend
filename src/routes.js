@@ -35,22 +35,23 @@ const multer = Multer({
     }
   });
 
+// To-do 
+    // Esqueci Senha
 const gcBucket = gc.bucket('instituto-hallelujah-bucket')
 
 routes.get('/', AuthMiddleware.checkToken, (req,res)=>{
     return res.status(200).json({success:true,message:`Server in On`})
 });
 routes.get('/profileInfo', AuthMiddleware.checkToken, PerfilController.find)
-// Notificações
-// Autorização 
+routes.get('/autorizacao', AuthMiddleware.checkToken, PerfilController.getPapel)
+routes.get('/projetosUser/', AuthMiddleware.checkToken, ProjetoController.find)
+routes.get('/projetos', ProjetoController.findAll)
+
+
+
 routes.post('/', PerfilController.createToken)
 routes.post('/registrar', PerfilController.store)
-// To-do 
-    // Editar Info pefil
-    // Esqueci Senha
 
-
-// Projetos
 routes.post('/projetos', AuthMiddleware.checkToken, multer.single('file'), ProjetoController.store, (req,res,next)=>{
     console.log("CADASTRANDO PROJETO")
     if (!req.file) {
@@ -66,17 +67,12 @@ routes.post('/projetos', AuthMiddleware.checkToken, multer.single('file'), Proje
 
     blobStream.on('finish', () => {
         const publicUrl = `https://storage.googleapis.com/${gcBucket.name}/${blob.name}`;
-       console.log(`===============>> ${publicUrl}`);
     });
     blobStream.end(req.file.buffer);
     res.status(200).json({success:true, message:"ok"})
 })
 
 routes.post('/updateInfo/', AuthMiddleware.checkToken, PerfilController.updateInfo)
-
-routes.get('/projetosUser/', AuthMiddleware.checkToken, ProjetoController.find)
-routes.get('/projetos', ProjetoController.findAll)
-
 routes.post('/votos', ProjetoController.vote)
 
 // To-do 

@@ -65,6 +65,12 @@ module.exports = {
         }
         });
     },
+    async getPapel(req, res){
+        const {profile_id} = req.decoded;
+        const {papel} = await Perfil.findById(profile_id)
+        return res.status(200).json({papel})
+    },
+
     async findAll(req, res){
     // todo
       return res.send({msg:"to-do"})
