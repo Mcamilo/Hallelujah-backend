@@ -72,8 +72,21 @@ module.exports = {
     },
 
     async findAll(req, res){
-    // todo
-      return res.send({msg:"to-do"})
+        const page = 1
+        const options = {
+            page,
+            sort: { createdAt: -1},
+            limit: process.env.PAGINATION_LIMIT
+        }
+
+        await Perfil.paginate({}, options, (err, result)=>{
+            if(err){
+                return res.status(400).json({message: "Bad Request"});                
+            }else{
+                return res.json(result)
+            }
+        })
+      
     },
     async updateInfo(req, res){
         const {profile_id} = req.decoded;
