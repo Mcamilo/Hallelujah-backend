@@ -24,7 +24,10 @@ const PerfilSchema = new Schema({
     pais:String,
     cep:String,
     descricao:String,
-    status: Boolean
+    status: {
+      type:Boolean,
+      default:true
+    }
 },{timestamps:true});
 
 PerfilSchema.statics.authenticate = function (email, senha, callback) {

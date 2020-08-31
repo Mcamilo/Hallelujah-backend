@@ -67,7 +67,8 @@ module.exports = {
                                 cidade: resultado.cidade,
                                 pais: resultado.pais,
                                 cep: resultado.cep,
-                                descricao: resultado.descricao
+                                descricao: resultado.descricao,
+                                status: resultado.status
                             })
             }
         })
@@ -97,7 +98,7 @@ module.exports = {
         const page = 1
         const options = {
             page,
-            sort: { createdAt: -1},
+            sort: { papel:-1},
             limit: process.env.PAGINATION_LIMIT
         }
 
@@ -123,5 +124,16 @@ module.exports = {
           }
         })
     },
-
+    async updateStatus(req, res){
+        const {profile_id, status} = req.body;
+        const perfil = await Perfil.findByIdAndUpdate(profile_id,{
+        status
+        }, function(err, result) {
+          if (err) {
+            return res.status(400).json({err});
+          } else {
+           return res.status(200).json({message:"ok"});
+          }
+        })
+    },
 };
