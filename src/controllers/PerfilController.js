@@ -102,7 +102,7 @@ module.exports = {
             limit: process.env.PAGINATION_LIMIT
         }
 
-        await Perfil.paginate({}, options, (err, result)=>{
+        await Perfil.paginate({ papel: { $ne: "admin" } }, options, (err, result)=>{
             if(err){
                 return res.status(400).json({message: "Bad Request"});                
             }else{
