@@ -12,8 +12,8 @@ const ProjetosSchema = new Schema({
     status:{
         type: String,
         required:true,
-        default:"Deliberação",
-        enum:["Deliberação", "Votação", "Concluído"]
+        default:"Desativado",
+        enum:["Deliberação", "Votação", "Concluído", "Desativado"]
     },
     id_org:{
         type:Schema.Types.ObjectId,

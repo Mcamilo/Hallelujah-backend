@@ -108,6 +108,19 @@ module.exports = {
         })
         const updated = await projeto.save()
         return res.status(200).json({message: "ok"})
-    }
+    },
+     async updateStatus(req, res){
+        const {id_projeto, status} = req.body;
+        const projeto = await Projetos.findByIdAndUpdate(id_projeto,{
+        status
+        }, function(err, result) {
+          if (err) {
+            return res.status(400).json({err});
+          } else {
+           return res.status(200).json({message:"ok"});
+          }
+        })
+    },
+
 
 };
