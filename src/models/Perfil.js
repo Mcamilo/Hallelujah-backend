@@ -15,7 +15,7 @@ const PerfilSchema = new Schema({
     papel:{
       type:String,
       default:"user",
-      enum:["user", "conselheiro", "sadmin"],
+      enum:["user", "conselheiro", "admin"],
       required:true
     },
     nome:String,

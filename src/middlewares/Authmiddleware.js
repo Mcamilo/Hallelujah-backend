@@ -32,7 +32,7 @@ async function checkAdmin(req, res, next) {
   const {profile_id} = req.decoded;
   const {papel} = await Perfil.findById(profile_id).exec();
 
-  if (papel === "sadmin") {
+  if (papel === "admin") {
     return next()
   }
   return res.json({
