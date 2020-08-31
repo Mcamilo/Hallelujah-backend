@@ -51,6 +51,7 @@ routes.get('/perfis', AuthMiddleware.checkToken, AuthMiddleware.checkAdmin, Perf
 
 routes.post('/', PerfilController.createToken)
 routes.post('/registrar', PerfilController.store)
+routes.post('/registrarConselheiro', AuthMiddleware.checkToken, AuthMiddleware.checkAdmin, PerfilController.storeConselheiro)
 
 routes.post('/projetos', AuthMiddleware.checkToken, multer.single('file'), ProjetoController.store, (req,res,next)=>{
     console.log("CADASTRANDO PROJETO")

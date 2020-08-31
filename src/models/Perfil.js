@@ -15,7 +15,7 @@ const PerfilSchema = new Schema({
     papel:{
       type:String,
       default:"user",
-      enum:["user", "admin", "sadmin"],
+      enum:["user", "conselheiro", "sadmin"],
       required:true
     },
     nome:String,
@@ -23,7 +23,8 @@ const PerfilSchema = new Schema({
     cidade:String,
     pais:String,
     cep:String,
-    descricao:String
+    descricao:String,
+    status: Boolean
 },{timestamps:true});
 
 PerfilSchema.statics.authenticate = function (email, senha, callback) {

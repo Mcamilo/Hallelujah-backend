@@ -30,6 +30,28 @@ module.exports = {
             }
         }
     },
+    async storeConselheiro(req, res){
+        const { email, senha, nome } = req.body
+        const usuarioExists = await Perfil.findOne({
+                $and:[{email}]
+            })
+        if(usuarioExists){
+            console.log(usuarioExists);
+            return res.status(500).json({message: "Email não disponível"})
+        }else{
+            try {
+                await Perfil.create({
+                    email,
+                    senha,
+                    papel: 'conselheiro',
+                    nome,
+                })
+                return res.status(200).json({message: "ok"})
+            } catch (error) {
+                return res.status(400).json({message: error.message})
+            }
+        }
+    },
     async find(req, res){
         const {profile_id} = req.decoded;
         Perfil.find({_id:profile_id}, (err, result)=>{
@@ -101,4 +123,5 @@ module.exports = {
           }
         })
     },
+
 };
