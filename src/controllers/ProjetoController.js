@@ -100,6 +100,22 @@ module.exports = {
             }
         })
     },
+    async findAvaliar(req, res){
+        
+        const options = {
+            page:1,
+            sort: { createdAt: -1},
+            limit: process.env.PAGINATION_LIMIT
+        }
+
+        await Projetos.paginate({ status: { $in:["Deliberação","Votação"] } }, options, (err, result)=>{
+            if(err){
+                return res.status(400).json({message: err});                
+            }else{
+                return res.json(result)
+            }
+        })
+    },
     async vote(req, res){
         const {id_projeto, voto, justificativa, id_conselheiro, nome_conselheiro} = req.body
         const projeto = await Projetos.findById(id_projeto)
