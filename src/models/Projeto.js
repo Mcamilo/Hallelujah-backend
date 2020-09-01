@@ -6,6 +6,7 @@ var votoSchema = new Schema({
         enum:["Aprovado","Rejeitado","Revisar"]
     },
     id_conselheiro:Schema.Types.ObjectId,
+    nome_conselheiro:String,
     justificativa:String
 })
 const ProjetosSchema = new Schema({

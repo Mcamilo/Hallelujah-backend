@@ -101,10 +101,10 @@ module.exports = {
         })
     },
     async vote(req, res){
-        const {id_projeto, voto, justificativa, id_conselheiro} = req.body
+        const {id_projeto, voto, justificativa, id_conselheiro, nome_conselheiro} = req.body
         const projeto = await Projetos.findById(id_projeto)
         projeto.votos.push({
-            voto,id_conselheiro,justificativa
+            voto,id_conselheiro,justificativa, nome_conselheiro
         })
         const updated = await projeto.save()
         return res.status(200).json({message: "ok"})
