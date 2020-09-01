@@ -85,7 +85,7 @@ module.exports = {
         })
     },
     async findProjeto(req, res){
-        const {id_projeto} = req.body
+        const {id_projeto} = req.params
         const projeto = await Projetos.findById(id_projeto)
         return res.status(200).json(projeto)
     },
