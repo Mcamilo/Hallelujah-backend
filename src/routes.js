@@ -46,6 +46,7 @@ routes.get('/profileInfo', AuthMiddleware.checkToken, PerfilController.find)
 routes.get('/autorizacao', AuthMiddleware.checkToken, PerfilController.getPapel)
 routes.get('/projetosUser', AuthMiddleware.checkToken, ProjetoController.find)
 routes.get('/projetos', ProjetoController.findAll)
+routes.get('/projeto', ProjetoController.findProjeto)
 routes.get('/projetosAvaliar', ProjetoController.findAvaliar)
 routes.get('/perfis', AuthMiddleware.checkToken, AuthMiddleware.checkAdmin, PerfilController.findAll)
 
