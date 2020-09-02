@@ -130,7 +130,7 @@ module.exports = {
         const updated = await projeto.save()
         return res.status(200).json({message: "ok"})
     },
-    async hasVoted(req, res){
+    async checkVote(req, res){
         const {profile_id} = req.decoded;
         const {id_projeto} = req.body;
 
