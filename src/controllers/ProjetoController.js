@@ -130,7 +130,19 @@ module.exports = {
         const updated = await projeto.save()
         return res.status(200).json({message: "ok"})
     },
-     async updateStatus(req, res){
+    async hasVoted(req, res){
+        const {profile_id} = req.decoded;
+        const {id_projeto} = req.body;
+
+        Projetos.find({_id:id_projeto, "votos.id_conselheiro":profile_id}, (err, result)=>{
+            if(err || !result.length){
+                return res.status(200).json({voted: false});                
+            }else{
+                return res.status(200).json({voted: true});                
+            }
+        })
+    },
+    async updateStatus(req, res){
         const {id_projeto, status} = req.body;
         const projeto = await Projetos.findByIdAndUpdate(id_projeto,{
         status

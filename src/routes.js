@@ -56,6 +56,7 @@ routes.post('/registrar', PerfilController.store)
 routes.post('/registrarConselheiro', AuthMiddleware.checkToken, AuthMiddleware.checkAdmin, PerfilController.storeConselheiro)
 routes.post('/updateStatusPerfil', AuthMiddleware.checkToken, AuthMiddleware.checkAdmin, PerfilController.updateStatus)
 routes.post('/updateStatusProjeto', AuthMiddleware.checkToken, AuthMiddleware.checkAdmin, ProjetoController.updateStatus)
+routes.post('/checkVote', AuthMiddleware.checkToken, ProjetoController.checkVote)
 
 routes.post('/projetos', AuthMiddleware.checkToken, multer.single('file'), ProjetoController.store, (req,res,next)=>{
     console.log("CADASTRANDO PROJETO")
@@ -78,7 +79,7 @@ routes.post('/projetos', AuthMiddleware.checkToken, multer.single('file'), Proje
 })
 
 routes.post('/updateInfo/', AuthMiddleware.checkToken, PerfilController.updateInfo)
-routes.post('/votos', ProjetoController.vote)
+routes.post('/votos', AuthMiddleware.checkToken, ProjetoController.vote)
 
 // To-do 
     // Trocar Status (Super Admin)
