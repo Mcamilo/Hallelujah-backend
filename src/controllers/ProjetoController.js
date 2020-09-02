@@ -138,7 +138,7 @@ module.exports = {
             if(err || !result.length){
                 return res.status(200).json({voted: false});                
             }else{
-                return res.status(200).json({voted: true});                
+                return res.status(200).json({voted: true, voto: result});                
             }
         })
     },
