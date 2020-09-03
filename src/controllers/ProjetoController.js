@@ -106,7 +106,6 @@ module.exports = {
         })
     },
     async findAvaliar(req, res){
-        
         const options = {
             page:1,
             sort: { createdAt: -1},
@@ -121,26 +120,44 @@ module.exports = {
             }
         })
     },
-    async vote(req, res){
-        const {id_projeto, voto, justificativa, id_conselheiro, nome_conselheiro} = req.body
-        const projeto = await Projetos.findById(id_projeto)
-        projeto.votos.push({
-            voto,id_conselheiro,justificativa, nome_conselheiro
-        })
-        const updated = await projeto.save()
-        return res.status(200).json({message: "ok"})
+    async votar(req, res){
+        const {id_projeto, justificativa, voto} = req.body
+        const {profile_id} = req.decoded;
+        const {nome} = await getPerfilById(profile_id);
+        
+        const projeto = await Projetos.findOne({_id:id_projeto, "votos.id_conselheiro":profile_id})
+        if (projeto){
+            console.log("VOTO")
+            projeto.votos.map(elem=>{
+                if (elem.id_conselheiro == profile_id){
+                    elem.voto = voto
+                    console.log(voto)
+                }
+            })
+            
+            const updated = await projeto.save()
+            return res.status(200).json({message: "Voto"})
+        }else{
+            console.log("DEL")
+            const projetoUp = await Projetos.findById(id_projeto)
+            projetoUp.votos.push({
+                id_conselheiro:profile_id,justificativa, nome_conselheiro:nome
+            })
+            const updated = await projetoUp.save()
+            return res.status(200).json({message: "Deliberação"})
+        }
     },
     async checkVote(req, res){
         const {profile_id} = req.decoded;
         const {id_projeto} = req.body;
 
-        Projetos.find({_id:id_projeto, "votos.id_conselheiro":profile_id}, (err, result)=>{
-            if(err || !result.length){
-                return res.status(200).json({voted: false});                
-            }else{
-                return res.status(200).json({voted: true, voto: result});                
-            }
-        })
+        const projeto = await Projetos.findOne({_id:id_projeto})
+        try{
+            votos = projeto.votos.filter(voto=>voto.id_conselheiro==profile_id)
+            return res.status(200).json({votos})
+        }catch(err){
+            return res.status(400).json({err})
+        }
     },
     async updateStatus(req, res){
         const {id_projeto, status} = req.body;

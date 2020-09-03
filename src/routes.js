@@ -79,7 +79,7 @@ routes.post('/projetos', AuthMiddleware.checkToken, multer.single('file'), Proje
 })
 
 routes.post('/updateInfo/', AuthMiddleware.checkToken, PerfilController.updateInfo)
-routes.post('/votos', AuthMiddleware.checkToken, ProjetoController.vote)
+routes.post('/avaliarProjeto', AuthMiddleware.checkToken, ProjetoController.votar)
 
 // To-do 
     // Trocar Status (Super Admin)
