@@ -50,6 +50,9 @@ routes.get('/projeto/:id_projeto', ProjetoController.findProjeto)
 routes.get('/projetosAvaliar', ProjetoController.findAvaliar)
 routes.get('/perfis', AuthMiddleware.checkToken, AuthMiddleware.checkAdmin, PerfilController.findAll)
 
+routes.get('/reset/:token', PerfilController.reset)
+routes.post('/resetarSenha', PerfilController.recover)
+routes.post('/reset/:token', PerfilController.resetPassword)
 
 routes.post('/', PerfilController.createToken)
 routes.post('/registrar', PerfilController.store)
@@ -57,6 +60,8 @@ routes.post('/registrarConselheiro', AuthMiddleware.checkToken, AuthMiddleware.c
 routes.post('/updateStatusPerfil', AuthMiddleware.checkToken, AuthMiddleware.checkAdmin, PerfilController.updateStatus)
 routes.post('/updateStatusProjeto', AuthMiddleware.checkToken, AuthMiddleware.checkAdmin, ProjetoController.updateStatus)
 routes.post('/checkVote', AuthMiddleware.checkToken, ProjetoController.checkVote)
+routes.post('/cronograma', AuthMiddleware.checkToken, ProjetoController.cadastrarConogramas)
+routes.get('/cronograma/:id_projeto', ProjetoController.listarCronogramas)
 
 routes.post('/projetos', AuthMiddleware.checkToken, multer.single('file'), ProjetoController.store, (req,res,next)=>{
     console.log("CADASTRANDO PROJETO")
@@ -77,6 +82,8 @@ routes.post('/projetos', AuthMiddleware.checkToken, multer.single('file'), Proje
     blobStream.end(req.file.buffer);
     res.status(200).json({success:true, message:"ok"})
 })
+
+
 
 routes.post('/updateInfo/', AuthMiddleware.checkToken, PerfilController.updateInfo)
 routes.post('/avaliarProjeto', AuthMiddleware.checkToken, ProjetoController.votar)

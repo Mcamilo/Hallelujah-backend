@@ -171,6 +171,27 @@ module.exports = {
           }
         })
     },
-
-
+    async cadastrarConogramas(req, res){         
+        const {id_projeto, taskName, dataInicio, dataFinal} = req.body
+        // console.log(JSON.stringify(req.body))
+        // return res.status(200).json({message: "ok"})        
+        const projeto = await Projetos.findOne({_id:id_projeto})                
+        projeto.cronogramas.push({taskName,dataInicio,dataFinal})
+        try {
+            const updated = await projeto.save()            
+            return res.status(200).json({message: "ok"})        
+        } catch (error) {
+            return res.status(500).json({message: error})        
+            
+        }
+    },
+    async listarCronogramas(req, res){            
+            const {id_projeto} = req.params;            
+            const projeto = await Projetos.findOne({_id:id_projeto})
+            try{                
+                return res.status(200).json({cronogramas:projeto.cronogramas})
+            }catch(err){
+                return res.status(400).json({err})
+            }
+    }
 };

@@ -9,6 +9,13 @@ var votoSchema = new Schema({
     nome_conselheiro:String,
     justificativa:String
 })
+var cronogramaSchema = new Schema({
+    // taskID:String,
+    taskName:String,
+    // tema:String,
+    dataInicio:Date,
+    dataFinal:Date,
+})
 const ProjetosSchema = new Schema({
     status:{
         type: String,
@@ -44,7 +51,31 @@ const ProjetosSchema = new Schema({
     materiais:String,
     outros_custos:String,
     imagem_url:String,
-    votos:[votoSchema]
+    votos:[votoSchema],
+    cronogramas:[cronogramaSchema]
 },{timestamps:true});
 ProjetosSchema.plugin(mongoosePaginate)
 module.exports = model('Projetos', ProjetosSchema);
+
+
+
+// [
+//     { type: 'string', label: 'Task ID' },
+//     { type: 'string', label: 'Task Name' },
+//     { type: 'string', label: 'Tema' },
+//     { type: 'date', label: 'Start Date' },
+//     { type: 'date', label: 'End Date' },
+//     { type: 'number', label: 'Duração' },
+//     { type: 'number', label: 'Percent Complete' },
+//     { type: 'string', label: 'Dependencies' },
+//   ]
+// [
+//     '2020Verão',
+//     'Verão 2020',
+//     'Verão',
+//     new Date(2020, 5, 21),
+//     new Date(2020, 8, 20),
+//     null,
+//     100,
+//     null,
+//   ]
