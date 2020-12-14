@@ -160,7 +160,9 @@ module.exports = {
         }
     },
     async updateStatus(req, res){
+        // todo - contar votos
         const {id_projeto, status} = req.body;
+        
         const projeto = await Projetos.findByIdAndUpdate(id_projeto,{
         status
         }, function(err, result) {
