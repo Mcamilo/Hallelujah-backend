@@ -1,3 +1,4 @@
 node_modules/
 .env
 tough-healer-245802-a8f3c399f6f0.json
+package-lock.json
