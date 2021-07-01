@@ -1,4 +1,8 @@
 require('dotenv').config()
+const fs = require("fs");
+fs.writeFile(process.env.GCP_KEY_FILE, process.env.GCP_CRED, (err) => {});
+
+
 const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')

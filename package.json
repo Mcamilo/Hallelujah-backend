@@ -4,8 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "heroku-prebuild": "node src/setup.js",
-    "preinstall": "node src/setup.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/app.js",
     "serve": "nodemon src/app.js"
